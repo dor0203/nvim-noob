@@ -118,7 +118,7 @@ end
 function M.setup(opts)
     opts = vim.tbl_deep_extend("force", defaults, opts or {})
     local data = opts.data or require('noob.data')
-    vim.api.nvim_create_user_command("noob", function()
+    vim.api.nvim_create_user_command("Noob", function()
         M.toggle(data, opts)
     end, {})
 end
