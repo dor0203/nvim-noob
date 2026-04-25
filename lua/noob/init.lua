@@ -30,7 +30,7 @@ local function build(data, opts)
         if opts.headers.enable then
             table.insert(lines, cat.header)
             if opts.headers.highlights then
-                table.insert(highlights, { line = line_nr, group = cat.header })
+                table.insert(highlights, { line = line_nr, group = hl_group })
             end
             line_nr = line_nr + 1
         end
@@ -41,7 +41,7 @@ local function build(data, opts)
                 hint[1], hint[2]
             ))
             if opts.hints.highlights then
-                table.insert(highlights, { line = line_nr, group = cat.header })
+                table.insert(highlights, { line = line_nr, group = hl_group })
             end
             line_nr = line_nr + 1
         end
@@ -87,11 +87,9 @@ local function open(data, opts)
         })
     end
 
-    vim.defer_fn(function()
-        for _, h in ipairs(highlights) do
-            vim.api.nvim_buf_add_highlight(panel_buf, -1, h.group, h.line, 0, -1)
-        end
-    end, 10)
+    for _, h in ipairs(highlights) do
+        vim.api.nvim_buf_add_highlight(panel_buf, -1, h.group, h.line, 0, -1)
+    end
 
     vim.bo[panel_buf].modifiable = false
     vim.bo[panel_buf].bufhidden = "wipe"
