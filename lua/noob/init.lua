@@ -87,9 +87,11 @@ local function open(data, opts)
         })
     end
 
-    for _, h in ipairs(highlights) do
-        vim.api.nvim_buf_add_highlight(panel_buf, -1, h.group, h.line, 0, -1)
-    end
+    vim.defer_fn(function()
+        for _, h in ipairs(highlights) do
+            vim.api.nvim_buf_add_highlight(panel_buf, -1, h.group, h.line, 0, -1)
+        end
+    end, 10)
 
     vim.bo[panel_buf].modifiable = false
     vim.bo[panel_buf].bufhidden = "wipe"
