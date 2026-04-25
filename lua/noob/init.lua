@@ -24,7 +24,8 @@ local function build(data, opts)
     local line_nr = 0
 
     for _, cat in ipairs(sorted) do
-        vim.api.nvim_set_hl(0, cat.header, { fg = cat.color, bold = true })
+        local hl_group = "Noob" .. cat.header
+        vim.api.nvim_set_hl(0, hl_group, { fg = cat.color, bold = true })
 
         if opts.headers.enable then
             table.insert(lines, cat.header)
@@ -116,6 +117,7 @@ function M.toggle(data, opts)
 end
 
 function M.setup(opts)
+    M._setup_called = true
     opts = vim.tbl_deep_extend("force", defaults, opts or {})
     local data = opts.data or require('noob.data')
     vim.api.nvim_create_user_command("Noob", function()
